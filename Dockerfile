@@ -2,7 +2,8 @@ FROM php:7.1-apache
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install components
-RUN apt-get update -y && apt-get install -y \
+RUN mkdir -p /usr/share/man/man1 && \
+	apt-get update -y && apt-get install -y \
 		curl \
 		git-core \
 		libcurl4-openssl-dev \
@@ -21,6 +22,7 @@ RUN apt-get update -y && apt-get install -y \
 		nano \
 		zip \
 		unzip \
+		default-jre \
 	--no-install-recommends && \
 	rm -r /var/lib/apt/lists/*
 
@@ -91,10 +93,10 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php -r "unlink('composer-setup.php');" && \
     mv composer.phar /usr/local/bin/composer
 
-
 # Install SSPAK
 RUN curl -sS https://silverstripe.github.io/sspak/install | php -- /usr/local/bin
 
 
 EXPOSE 80
+EXPOSE 8983
 CMD ["apache2-foreground"]
