@@ -17,7 +17,7 @@ RUN apt-get update -y && apt-get install -y \
 		zlib1g-dev \
 		libicu-dev \
 		g++ \
-		mysql-client \
+		default-mysql-client \
 		nano \
 		zip \
 		unzip \
