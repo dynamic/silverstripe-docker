@@ -28,13 +28,13 @@ RUN apt-get update -y && apt-get install -y \
 RUN docker-php-ext-configure intl && \
 	docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
 	docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
-	docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ &&\
+	docker-php-ext-configure gd --with-freetype --with-jpeg && \
+	pecl install mcrypt-1.0.3 && \
 	docker-php-ext-install -j$(nproc) \
 		bcmath \
 		gd \
 		intl \
 		ldap \
-		mcrypt \
 		mysqli \
 		pdo \
 		pdo_mysql \
@@ -97,4 +97,5 @@ RUN curl -sS https://silverstripe.github.io/sspak/install | php -- /usr/local/bi
 
 
 EXPOSE 80
+EXPOSE 443
 CMD ["apache2-foreground"]
