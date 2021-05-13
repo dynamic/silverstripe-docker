@@ -42,7 +42,7 @@ RUN docker-php-ext-configure intl && \
 		tidy \
 		xsl
 
-# Apache + xdebug configuration
+# Apache configuration
 RUN { \
                 echo "<VirtualHost *:80>"; \
                 echo "  DocumentRoot /var/www/html"; \
@@ -71,19 +71,6 @@ RUN echo "ServerName localhost" > /etc/apache2/conf-available/fqdn.conf && \
 	usermod -u 1000 www-data && \
 	usermod -G staff www-data
 
-
-# Install Xdebug
-RUN pecl install xdebug-2.9.8 && \
-	docker-php-ext-enable xdebug && \
-	sed -i '1 a xdebug.remote_autostart=true' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_mode=req' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_handler=dbgp' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_connect_back=1 ' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_port=9000' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_host=127.0.0.1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_enable=1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
-
 # Install Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
     #php -r "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
@@ -95,6 +82,6 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 # Install SSPAK
 RUN curl -sS https://silverstripe.github.io/sspak/install | php -- /usr/local/bin
 
-
 EXPOSE 80
+EXPOSE 443
 CMD ["apache2-foreground"]
