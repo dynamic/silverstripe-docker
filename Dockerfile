@@ -97,4 +97,5 @@ RUN curl -sS https://silverstripe.github.io/sspak/install | php -- /usr/local/bi
 
 
 EXPOSE 80
+EXPOSE 443
 CMD ["apache2-foreground"]
