@@ -1,4 +1,4 @@
-FROM php:7.0-apache
+FROM php:5.6-apache
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install components
@@ -73,7 +73,7 @@ RUN echo "ServerName localhost" > /etc/apache2/conf-available/fqdn.conf && \
 
 
 # Install Xdebug
-RUN pecl install xdebug-2.7.2 && \
+RUN pecl install xdebug-2.5.5 && \
 	docker-php-ext-enable xdebug && \
 	sed -i '1 a xdebug.remote_autostart=true' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
 	sed -i '1 a xdebug.remote_mode=req' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
