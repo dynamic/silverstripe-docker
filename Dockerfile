@@ -12,6 +12,7 @@ RUN apt-get update -y && apt-get install -y \
 		libjpeg62-turbo-dev \
 		libmcrypt-dev \
 		libpng-dev \
+		libmagickwand-dev \
 		libtidy-dev \
 		libxslt-dev \
 		zlib1g-dev \
@@ -30,6 +31,8 @@ RUN docker-php-ext-configure intl && \
 	docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
 	docker-php-ext-configure gd --with-freetype --with-jpeg && \
 	pecl install mcrypt-1.0.3 && \
+	pecl install imagick && \
+	docker-php-ext-enable imagick && \
 	docker-php-ext-install -j$(nproc) \
 		bcmath \
 		gd \
