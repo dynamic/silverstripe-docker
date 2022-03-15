@@ -30,6 +30,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          load: true
           push: true
           tags: myimage:${{ github.ref_name }}
