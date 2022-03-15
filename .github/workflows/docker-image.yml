@@ -6,6 +6,13 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - uses: haya14busa/action-cond@v1
+        id: tagname
+        with:
+          cond: ${{ github.ref_name == 'master' }}
+          if_true: "latest"
+          if_false: ${{ github.ref_name }}
+
       -
         name: Checkout
         uses: actions/checkout@v2
@@ -31,4 +38,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: myimage:${{ github.ref_name }}
+          tags: dynamicagency/silverstripe-docker:${{ steps.tagname.outputs.value }}
