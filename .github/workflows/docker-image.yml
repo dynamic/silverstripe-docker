@@ -31,4 +31,5 @@ jobs:
         with:
           context: .
           load: true
+          push: true
           tags: myimage:${{ github.ref_name }}
