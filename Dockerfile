@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:7.4-apache
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install components
