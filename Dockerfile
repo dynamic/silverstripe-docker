@@ -75,13 +75,11 @@ RUN echo "ServerName localhost" > /etc/apache2/conf-available/fqdn.conf && \
 # Install Xdebug
 RUN pecl install xdebug-3.1.5 && \
 	docker-php-ext-enable xdebug && \
-	sed -i '1 a xdebug.remote_autostart=true' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_mode=req' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_handler=dbgp' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_connect_back=1 ' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_port=9000' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_host=127.0.0.1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_enable=1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+	sed -i '1 a xdebug.start_with_request=yes' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
+	sed -i '1 a xdebug.discover_client_host=1 ' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
+	sed -i '1 a xdebug.client_port=9003' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
+	sed -i '1 a xdebug.client_host=127.0.0.1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
+	sed -i '1 a xdebug.mode=develop,debug,profile' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 
 # Install Composer
