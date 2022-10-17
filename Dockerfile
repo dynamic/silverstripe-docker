@@ -2,7 +2,7 @@ FROM arm64v8/php:8.1-apache
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install components
-RUN apt-get update -y && apt-get install -y \
+RUN apt update -y && apt install -y \
 		curl \
 		git-core \
 		libcurl4-openssl-dev \
@@ -27,7 +27,7 @@ RUN apt-get update -y && apt-get install -y \
 # Install PHP Extensions
 RUN docker-php-ext-configure intl && \
 	docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
-	docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+	#docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
 	docker-php-ext-configure gd --with-freetype --with-jpeg && \
 	docker-php-ext-install -j$(nproc) \
 		bcmath \
