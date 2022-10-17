@@ -39,7 +39,8 @@ RUN docker-php-ext-configure intl && \
 		pdo_mysql \
 		soap \
 		tidy \
-		xsl
+		xsl \
+        zip
 
 # Apache configuration
 RUN { \
