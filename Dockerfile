@@ -27,7 +27,7 @@ RUN apt update -y && apt install -y \
 # Install PHP Extensions
 RUN docker-php-ext-configure intl && \
 	docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
-	#docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+	docker-php-ext-configure ldap --with-libdir=lib/$(uname -m)-linux-gnu/ && \
 	docker-php-ext-configure gd --with-freetype --with-jpeg && \
 	docker-php-ext-install -j$(nproc) \
 		bcmath \
