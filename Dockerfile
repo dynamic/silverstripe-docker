@@ -40,7 +40,7 @@ RUN docker-php-ext-configure intl && \
 		soap \
 		tidy \
 		xsl \
-        zip
+		zip
 
 # Apache configuration
 RUN { \
