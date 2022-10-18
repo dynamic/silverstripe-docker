@@ -30,7 +30,7 @@ RUN docker-php-ext-configure intl \
 	&& docker-php-ext-configure mysqli --with-mysqli=mysqlnd \
 	&& docker-php-ext-configure ldap --with-libdir=lib/$(uname -m)-linux-gnu/ \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-configure zip --with-libzip \
+    && docker-php-ext-configure zip \
     && docker-php-ext-install -j$(nproc) \
 		bcmath \
 		gd \
