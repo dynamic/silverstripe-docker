@@ -14,6 +14,7 @@ RUN apt update -y && apt install -y \
 		libpng-dev \
 		libtidy-dev \
 		libxslt-dev \
+		libzip-dev \
 		zlib1g-dev \
 		libicu-dev \
 		g++ \
@@ -25,25 +26,23 @@ RUN apt update -y && apt install -y \
 	rm -r /var/lib/apt/lists/*
 
 # Install PHP Extensions
-RUN docker-php-ext-install -j$(nproc) \
-        bcmath \
-        gd \
-        intl \
-        ldap \
-        libzip-dev \
-        mysqli \
-        pdo \
-        pdo_mysql \
-        soap \
-        tidy \
-        xsl \
-        unzip \
-        zip \
-    && docker-php-ext-configure intl \
+RUN docker-php-ext-configure intl \
 	&& docker-php-ext-configure mysqli --with-mysqli=mysqlnd \
 	&& docker-php-ext-configure ldap --with-libdir=lib/$(uname -m)-linux-gnu/ \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-configure zip --with-libzip \
+    && docker-php-ext-install -j$(nproc) \
+		bcmath \
+		gd \
+		intl \
+		ldap \
+		mysqli \
+		pdo \
+		pdo_mysql \
+		soap \
+		tidy \
+		xsl \
+		zip
 
 # Apache configuration
 RUN { \
