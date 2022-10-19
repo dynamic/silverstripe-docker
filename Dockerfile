@@ -74,14 +74,12 @@ RUN echo "ServerName localhost" > /etc/apache2/conf-available/fqdn.conf && \
 	usermod -G staff www-data
 
 # Install Xdebug
-RUN pecl install xdebug-3.1.5 && \
-	docker-php-ext-enable xdebug && \
-	sed -i '1 a xdebug.start_with_request=yes' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.discover_client_host=1 ' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.client_port=9003' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.client_host=127.0.0.1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.mode=develop,debug,profile' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+RUN echo 'zend_extension=xdebug' >> /usr/local/etc/php/php.ini
+RUN echo 'xdebug.mode=develop,debug' >> /usr/local/etc/php/php.ini
+RUN echo 'xdebug.client_host=host.docker.internal' >> /usr/local/etc/php/php.ini
+RUN echo 'xdebug.start_with_request=yes' >> /usr/local/etc/php/php.ini
+RUN echo 'session.save_path = "/tmp"' >> /usr/local/etc/php/php.ini
 
 # Install Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
