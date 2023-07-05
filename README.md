@@ -1,6 +1,6 @@
 # Docker Container for Silverstripe Development
 
-A server equiped with apache and PHP 8.2. Intended to be used with [docker-compose](http://github.com/dynamic/silverstripe-docker-compose) and a MySQL container.
+A server equiped with apache and PHP 8.2 and XDebug for ARM machines. Intended to be used with [docker-compose](http://github.com/dynamic/silverstripe-docker-compose) and a MySQL container.
 
 ## Requirements
 
