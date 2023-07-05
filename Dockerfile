@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8.2-apache
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install components
@@ -29,7 +29,6 @@ RUN docker-php-ext-configure intl && \
 	docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
 	docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
 	docker-php-ext-configure gd --with-freetype --with-jpeg && \
-	pecl install mcrypt-1.0.3 && \
 	docker-php-ext-install -j$(nproc) \
 		bcmath \
 		gd \
@@ -42,7 +41,7 @@ RUN docker-php-ext-configure intl && \
 		tidy \
 		xsl
 
-# Apache + xdebug configuration
+# Apache configuration
 RUN { \
                 echo "<VirtualHost *:80>"; \
                 echo "  DocumentRoot /var/www/html"; \
@@ -71,18 +70,13 @@ RUN echo "ServerName localhost" > /etc/apache2/conf-available/fqdn.conf && \
 	usermod -u 1000 www-data && \
 	usermod -G staff www-data
 
-
 # Install Xdebug
-RUN pecl install xdebug && \
-	docker-php-ext-enable xdebug && \
-	sed -i '1 a xdebug.remote_autostart=true' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_mode=req' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_handler=dbgp' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_connect_back=1 ' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_port=9000' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_host=127.0.0.1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.remote_enable=1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+RUN echo 'zend_extension=xdebug' >> /usr/local/etc/php/php.ini
+RUN echo 'xdebug.mode=develop,debug' >> /usr/local/etc/php/php.ini
+RUN echo 'xdebug.client_host=host.docker.internal' >> /usr/local/etc/php/php.ini
+RUN echo 'xdebug.start_with_request=yes' >> /usr/local/etc/php/php.ini
+RUN echo 'session.save_path = "/tmp"' >> /usr/local/etc/php/php.ini
 
 # Install Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
@@ -94,7 +88,6 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 
 # Install SSPAK
 RUN curl -sS https://silverstripe.github.io/sspak/install | php -- /usr/local/bin
-
 
 EXPOSE 80
 EXPOSE 443
