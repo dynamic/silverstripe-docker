@@ -1,4 +1,4 @@
-FROM php:8.2-apache
+FROM arm64v8/php:8.2-apache
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install components
