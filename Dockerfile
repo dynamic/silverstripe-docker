@@ -2,7 +2,7 @@ FROM arm64v8/php:8.2-apache
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install components
-RUN apt-get update -y && apt-get install -y \
+RUN apt update -y && apt install -y \
 		curl \
 		git-core \
 		libcurl4-openssl-dev \
@@ -14,6 +14,7 @@ RUN apt-get update -y && apt-get install -y \
 		libpng-dev \
 		libtidy-dev \
 		libxslt-dev \
+		libzip-dev \
 		zlib1g-dev \
 		libicu-dev \
 		g++ \
