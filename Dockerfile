@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM arm64v8/php:7.4-apache
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install components
@@ -25,11 +25,11 @@ RUN apt-get update -y && apt-get install -y \
 	rm -r /var/lib/apt/lists/*
 
 # Install PHP Extensions
-RUN docker-php-ext-configure intl && \
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-configure intl && \
 	docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
-	docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
-	docker-php-ext-configure gd --with-freetype --with-jpeg && \
-	pecl install mcrypt-1.0.3 && \
+	docker-php-ext-configure ldap --with-libdir=lib/$(uname -m)-linux-gnu/ && \
+	# pecl install mcrypt-1.0.3 && \
 	docker-php-ext-install -j$(nproc) \
 		bcmath \
 		gd \
@@ -79,7 +79,7 @@ RUN pecl install xdebug-3.1.5 && \
 	sed -i '1 a xdebug.discover_client_host=1 ' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
 	sed -i '1 a xdebug.client_port=9003' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
 	sed -i '1 a xdebug.client_host=127.0.0.1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.mode=develop,debug,profile' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+	sed -i '1 a xdebug.mode=debug,profile' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 
 # Install Composer
