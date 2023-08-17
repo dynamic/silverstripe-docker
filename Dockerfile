@@ -76,11 +76,9 @@ RUN echo "ServerName localhost" > /etc/apache2/conf-available/fqdn.conf && \
 # Install Xdebug
 RUN pecl install xdebug-3.1.5 && \
 	docker-php-ext-enable xdebug && \
-	sed -i '1 a xdebug.start_with_request=yes' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.discover_client_host=1 ' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.client_port=9003' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.client_host=127.0.0.1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
-	sed -i '1 a xdebug.mode=debug,profile' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+	sed -i '1 a xdebug.client_host=host.docker.internal' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
+	sed -i '1 a xdebug.mode=debug' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
+	sed -i '1 a xdebug.start_with_request = yes' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 
 # Install Composer
