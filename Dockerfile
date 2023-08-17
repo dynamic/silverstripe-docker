@@ -4,25 +4,26 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install components
 RUN apt-get update -y && apt-get install -y \
 		curl \
+		default-mysql-client \
+		g++ \
 		git-core \
 		libcurl4-openssl-dev \
 		libgd-dev \
 		libfreetype6-dev \
+		libicu-dev \
 		libldap2-dev \
 		libjpeg62-turbo-dev \
 		libmcrypt-dev \
 		libpng-dev \
 		libtidy-dev \
 		libxslt-dev \
-		zlib1g-dev \
-		libicu-dev \
-		g++ \
-		default-mysql-client \
 		nano \
-		zip \
+		openssh-client \
 		unzip \
-	--no-install-recommends && \
-	rm -r /var/lib/apt/lists/*
+		zip \
+		zlib1g-dev \
+		--no-install-recommends && \
+		rm -r /var/lib/apt/lists/*
 
 # Install PHP Extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
