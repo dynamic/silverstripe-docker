@@ -43,6 +43,8 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
 		tidy \
 		xsl
 
+RUN echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini;
+
 # Apache + xdebug configuration
 RUN { \
                 echo "<VirtualHost *:80>"; \
