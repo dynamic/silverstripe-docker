@@ -45,6 +45,8 @@ RUN docker-php-ext-configure intl \
 		xsl \
 		zip
 
+RUN echo 'memory_limit = -1' >> /usr/local/etc/php/conf.d/docker-php-memlimit.ini;
+
 # Apache configuration
 RUN { \
                 echo "<VirtualHost *:80>"; \
